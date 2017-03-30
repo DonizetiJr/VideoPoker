@@ -21,11 +21,20 @@ combinação.
 
 Combinação Prêmio
 
-- Dois pares Valor da aposta
-- Trinca 2 X valor da aposta
-- Straight (5 cartas seguidas de naipes diferentes) 5 X valor da aposta
-- Flush (5 cartas do mesmo naipe não seguidas) 10 X valor da aposta
-- Full hando (uma trinca e um par) 20 X valor da aposta
-- Quadra 50 X valor da aposta
-- Straight Flush (5 cartas seguidas do mesmo naipe) 100 X valor da aposta
-- Royal Straight Flush (5 cartas seguidas do mesmo naipe de 10 até o As) 200 X valor da aposta
+- Dois pares Valor da aposta;
+- Trinca 2 X valor da aposta;
+- Straight (5 cartas seguidas de naipes diferentes) 5 X valor da aposta;
+- Flush (5 cartas do mesmo naipe não seguidas) 10 X valor da aposta;
+- Full hando (uma trinca e um par) 20 X valor da aposta;
+- Quadra 50 X valor da aposta;
+- Straight Flush (5 cartas seguidas do mesmo naipe) 100 X valor da aposta;
+- Royal Straight Flush (5 cartas seguidas do mesmo naipe de 10 até o As) 200 X valor da aposta.
+
+### Classes
+
+- Entradateclado.java: lê diferentes tipos de dados digitados;
+- Random.java: gerador de números aleatórios;
+- Player.java;
+- Card.java;
+- Pocket.java: gerenciamento dos créditos;
+- VideoPoker.java: classe principal.
