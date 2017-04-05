@@ -28,6 +28,7 @@ public class VideoPoker {
     	}
     	Collections.shuffle(deck);
 
+
     	// Loop do jogo, que ocorre enquanto o jogador possuir créditos
     	// para apostar ou acabarem as cartas do baralho.
         while (player.getCredits() > 0 && deck.size() > 0) {
