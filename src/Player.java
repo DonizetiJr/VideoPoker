@@ -1,4 +1,6 @@
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -146,4 +148,25 @@ public class Player {
 		return this.hand.remove(cardPos);
 	}
 
+    public void dropCardsBatch(String cardsPos) {
+        Integer[] positions;
+
+        if (!cardsPos.isEmpty()) {
+            String[] str = cardsPos.split(" ");
+            positions = new Integer[str.length];
+
+            for (int i = 0; i < str.length; i++)
+                positions[i] = new Integer(str[i]);
+
+            Arrays.sort(positions, Collections.reverseOrder());
+
+            for (Integer pos : positions)
+                dropCard(pos.intValue());
+        }
+    }
+
+    public void switchCards(String cardsPos, Stack<Card> deck) {
+        dropCardsBatch(cardsPos);
+        pullCardsBatch(deck, cardsPos.split(" ").length);
+    }
 }

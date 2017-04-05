@@ -24,19 +24,16 @@ public class VideoPoker {
         player.pullCardsBatch(deck, player.getMaxHandSize());
         System.out.println(player.showHand());
 
-    	do {
-    		System.out.print("Digite o valor de sua aposta: ");
+        while (true) {
             try {
-                int aposta = EntradaTeclado.leInt();
-                player.bet(aposta);
-                
+                System.out.println("Digite as cartas que deseja trocar");
+                String str = EntradaTeclado.leString();
+
+                player.switchCards(str, deck);
+                System.out.println(player.showHand());
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
-
-
-    	} while (deck.size() > 0);
-
-
+        }
     }
 }
