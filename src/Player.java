@@ -1,32 +1,81 @@
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class Player {
-	private List<Card> hand;
+    private int maxHandSize;
+	private ArrayList<Card> hand;
 	private Pocket pocket;
-	
+
 	public Player() {
 		this(5);
 	}
-	
+
 	public Player(int handSize){
-		this.hand = new Card[handSize];
+        this.maxHandSize = handSize;
+		this.hand = new ArrayList<Card>(handSize);
 		this.pocket = new Pocket();
 	}
-	
+
+    public int getMaxHandSize() {
+        return this.maxHandSize;
+    }
+
 	public int bet(int betValue) {
-		
+        return 0;
 	}
-	
+
 	public String showHand() {
-		
+        String r = "";
+        String[][] str = new String[this.hand.size()][];
+
+        for (int i = 0; i < this.hand.size(); i++ ) {
+            str[i] = this.hand.get(i).toString().split("\\n");
+        }
+
+        for (int i = 0; i < this.hand.size(); i++) {
+            r += i + 1;
+            r += "          ";
+        }
+
+        r += "\n";
+
+        for (int i = 0; i < str[0].length; i++) {
+            for (int j = 0; j < this.hand.size(); j++) {
+              	r += str[j][i];
+            }
+
+            r += '\n';
+        }
+
+        r += '\n';
+
+        return r;
 	}
-	
-	public Card pullCard(Stack<Card> deck) {
-		deck.pop();
+
+	public Card pullCard(Stack<Card> deck) throws HandOverflowException {
+        if (this.hand.size() == this.maxHandSize)
+            throw new HandOverflowException("Limite de cartas em mão atingido. LADRÃO! LADRÃO!");
+
+		Card pull = deck.pop();
+        this.hand.add(pull);
+
+        return pull;
 	}
-	
+
+    public void pullCardsBatch(Stack<Card> deck, int n) {
+        try {
+            for (int i = 0; i < n; i++) {
+                pullCard(deck);
+            }
+        } catch (HandOverflowException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 	public Card dropCard(int cardPos) {
-		return hand[cardPos];
+		return this.hand.remove(cardPos);
 	}
-	
+
 }

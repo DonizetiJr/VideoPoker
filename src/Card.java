@@ -52,13 +52,13 @@ public class Card {
     public String toString() {
         String str = "";
 
-        str += "+-------+\n";
-        str += "| *     |\n";
-        str += "|       |\n";
-        str += "|  ..   |\n";
-        str += "|       |\n";
-        str += "|     * |\n";
-        str += "+-------+\n";
+        str += "+-------+  \n";
+        str += "| *     |  \n";
+        str += "|       |  \n";
+        str += "|  ..   |  \n";
+        str += "|       |  \n";
+        str += "|     * |  \n";
+        str += "+-------+  \n";
 
         str = str.replace('*', this.suit.getSymbol());
         str = str.replace("..", this.rank.getSymbol());
