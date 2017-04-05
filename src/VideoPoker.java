@@ -1,4 +1,5 @@
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Stack;
@@ -23,12 +24,18 @@ public class VideoPoker {
         player.pullCardsBatch(deck, player.getMaxHandSize());
         System.out.println(player.showHand());
 
-    	// do {
-    	// 	System.out.print("Digite o valor de sua aposta: ");
-    	// 	aposta = EntradaTeclado.leInt();
-        //
-        //
-    	// } while ();
+    	do {
+    		System.out.print("Digite o valor de sua aposta: ");
+            try {
+                int aposta = EntradaTeclado.leInt();
+                player.bet(aposta);
+                
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+
+
+    	} while (deck.size() > 0);
 
 
     }

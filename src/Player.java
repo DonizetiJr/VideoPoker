@@ -22,25 +22,28 @@ public class Player {
         return this.maxHandSize;
     }
 
-	public int bet(int betValue) {
-        return 0;
+	public void bet(int betValue) {
+        this.pocket.wage(betValue);
 	}
 
 	public String showHand() {
         String r = "";
         String[][] str = new String[this.hand.size()][];
 
+        // Break all the cards into lines and group them (horizontally)
+        // in a single string
         for (int i = 0; i < this.hand.size(); i++ ) {
             str[i] = this.hand.get(i).toString().split("\\n");
         }
 
         for (int i = 0; i < this.hand.size(); i++) {
-            r += i + 1;
+            r += i;
             r += "          ";
         }
 
         r += "\n";
 
+        // str[0].length = Number of lines
         for (int i = 0; i < str[0].length; i++) {
             for (int j = 0; j < this.hand.size(); j++) {
               	r += str[j][i];
