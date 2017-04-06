@@ -19,7 +19,7 @@ public class VideoPoker {
 	public static void main(String[] args) {
 		// A Stack representa um baralho de cartas
 		Stack<Card> deck = new Stack<Card>();
-		
+
         Player player = new Player();
     	for (Card.Suit s : Card.Suit.values()) {
     		for (Card.Rank r : Card.Rank.values()) {
@@ -34,28 +34,37 @@ public class VideoPoker {
         while (player.getCredits() > 0 && deck.size() > 0) {
             try {
             	player.pullCardsBatch(deck, player.getMaxHandSize());
-                System.out.println(player.showHand());
-            	
+                System.out.println("\n"+player.showHand());
+
             	System.out.println("Digite sua aposta:");
-            	int aposta = EntradaTeclado.leInt();
-            	player.bet(aposta);
-            	
+            	int aposta = 0;
+                while (aposta == 0 || aposta > player.getCredits()) {
+                    try {
+                        aposta = EntradaTeclado.leInt();
+                        if (aposta != 0)
+                            player.bet(aposta);
+                    } catch (IOException e) {
+                        System.out.println("Formato inválido, digite novamente.");
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+
                 System.out.println("Digite as cartas que deseja trocar");
                 String str = EntradaTeclado.leString();
-
                 player.switchCards(str, deck);
                 System.out.println(player.showHand());
-                
-                
+
                 player.receiveCredits();
                 System.out.println("Dinheiro: " + player.getCredits());
-                
-                
+
                 player.dropCardsBatch("0 1 2 3 4");
-                
-            } catch (IOException e) {
+
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
+
+        System.out.println("Game over");
     }
 }

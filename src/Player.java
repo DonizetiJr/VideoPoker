@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- * 
+ *
  * @author Edylson T. & Donizeti Jr.
  * Classe representa o jogador de poker, manipulando seus
  * créditos, baralho e cartas em mão.
@@ -17,14 +17,14 @@ public class Player {
 	private ArrayList<Card> hand;
 	private Pocket pocket;
 
-	/*
+	/**
 	 * Construtor padrão, onde o player começa com 5 cartas em sua mão.
 	 */
 	public Player() {
 		this(5);
 	}
 
-	/*
+	/**
 	 * Inicia a mão do jogador com n cartas.
 	 */
 	public Player(int handSize){
@@ -33,28 +33,28 @@ public class Player {
 		this.pocket = new Pocket();
 	}
 
-	/*
+	/**
 	 * Retorna o limite de cartas na mão.
 	 */
     public int getMaxHandSize() {
         return this.maxHandSize;
     }
 
-    /*
+    /**
      * Aposta um número de créditos.
      */
 	public void bet(int betValue) {
         this.pocket.wage(betValue);
 	}
-	
-	/*
+
+	/**
 	 * Retorna o número de créditos do jogador.
 	 */
 	public int getCredits() {
 		return this.pocket.getNCredits();
 	}
-	
-	/*
+
+	/**
 	 * Verifica o numero de combinações na mão do jogador
 	 * e retorna um valor a ser multiplicado como recompensa.
 	 */
@@ -63,24 +63,25 @@ public class Player {
 		int[] suits = new int[4];
 		int sequence = 0;
 		boolean equalSuits = false;
-		
+
 		for (Card c : this.hand) {
+            // ordinal() retorna o int correspondente à ordem em que foi declarado
 			ranks[c.getValue().ordinal()]++;
 			suits[c.getSuit().ordinal()]++;
 		}
-		
+
 		for (int rankFreq : ranks) {
 			if (rankFreq == 0)
 				sequence = 0;
 			sequence++;
-			
+
 			if (sequence == 5) break;
 		}
-		
+
 		for (int suitFreq : suits)
 			if (suitFreq == 5)
 				equalSuits = true;
-		
+
 		if (equalSuits) {
 			if (sequence == 5) {
 				if (ranks[Card.Rank.ACE.ordinal()] == 1)
@@ -88,36 +89,36 @@ public class Player {
 				else
 					return 100;
 			}
-			
+
 			return 10;
 		}
-		
+
 		if (sequence == 5)
 			return 5;
-		
+
 		int pair = 0;
 		int triple = 0;
 		for (int i = 0; i < ranks.length; i++) {
 			if (ranks[i] == 4)
 				return 50;
-			
+
 			if (ranks[i] == 2) pair++;
 			if (ranks[i] == 3) triple++;
 		}
-		
+
 		if (triple == 1)
 			if (pair == 1)
 				return 20;
 			else
 				return 2;
-		
+
 		if (pair == 2)
 			return 1;
-		
+
 		return 0;
 	}
-	
-	/*
+
+	/**
 	 * Recebe créditos correspondente às combinações da sua mao.
 	 * Caso não haja combinações, perde a quantidade de créditos apostada.
 	 */
@@ -130,7 +131,7 @@ public class Player {
 		}
 	}
 
-	/*
+	/**
 	 * Retorna uma String contendo o visual das cartas em sua mão.
 	 */
 	public String showHand() {
@@ -164,7 +165,7 @@ public class Player {
         return r;
 	}
 
-	/*
+	/**
 	 * Puxa uma carta do baralho.
 	 */
 	public Card pullCard(Stack<Card> deck) throws HandOverflowException {
@@ -177,7 +178,7 @@ public class Player {
         return pull;
 	}
 
-	/*
+	/**
 	 * Puxa quantidade n de cartas do baralho.
 	 */
     public void pullCardsBatch(Stack<Card> deck, int n) {
@@ -190,14 +191,17 @@ public class Player {
         }
     }
 
-    /*
+    /**
      * Descarta uma carta em mão.
      */
 	public Card dropCard(int cardPos) {
+        if (cardPos > this.hand.size()-1)
+            throw new IllegalArgumentException("Posição não ocupada por uma carta.");
+
 		return this.hand.remove(cardPos);
 	}
 
-	/*
+	/**
 	 * Descarta n cartas da mão do jogador pela sua;s posições.
 	 */
     public void dropCardsBatch(String cardsPos) {
