@@ -5,31 +5,59 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import Card.Rank;
-
+/**
+ * 
+ * @author Edylson T. & Donizeti Jr.
+ * Classe representa o jogador de poker, manipulando seus
+ * créditos, baralho e cartas em mão.
+ *
+ */
 public class Player {
     private int maxHandSize;
 	private ArrayList<Card> hand;
 	private Pocket pocket;
 
+	/*
+	 * Construtor padrão, onde o player começa com 5 cartas em sua mão.
+	 */
 	public Player() {
 		this(5);
 	}
 
+	/*
+	 * Inicia a mão do jogador com n cartas.
+	 */
 	public Player(int handSize){
         this.maxHandSize = handSize;
 		this.hand = new ArrayList<Card>(handSize);
 		this.pocket = new Pocket();
 	}
 
+	/*
+	 * Retorna o limite de cartas na mão.
+	 */
     public int getMaxHandSize() {
         return this.maxHandSize;
     }
 
+    /*
+     * Aposta um número de créditos.
+     */
 	public void bet(int betValue) {
         this.pocket.wage(betValue);
 	}
 	
+	/*
+	 * Retorna o número de créditos do jogador.
+	 */
+	public int getCredits() {
+		return this.pocket.getNCredits();
+	}
+	
+	/*
+	 * Verifica o numero de combinações na mão do jogador
+	 * e retorna um valor a ser multiplicado como recompensa.
+	 */
 	private int verifyHand() {
 		int[] ranks = new int[13];
 		int[] suits = new int[4];
@@ -89,10 +117,22 @@ public class Player {
 		return 0;
 	}
 	
-	public void receiveCredits(int credits) {
-		this.pocket.winCredits();
+	/*
+	 * Recebe créditos correspondente às combinações da sua mao.
+	 * Caso não haja combinações, perde a quantidade de créditos apostada.
+	 */
+	public void receiveCredits() {
+		int combNum = verifyHand();
+		if (combNum == 0) {
+			this.pocket.loseCredits();
+		} else {
+			this.pocket.winCredits(combNum);
+		}
 	}
 
+	/*
+	 * Retorna uma String contendo o visual das cartas em sua mão.
+	 */
 	public String showHand() {
         String r = "";
         String[][] str = new String[this.hand.size()][];
@@ -124,6 +164,9 @@ public class Player {
         return r;
 	}
 
+	/*
+	 * Puxa uma carta do baralho.
+	 */
 	public Card pullCard(Stack<Card> deck) throws HandOverflowException {
         if (this.hand.size() == this.maxHandSize)
             throw new HandOverflowException("Limite de cartas em mão atingido. LADRÃO! LADRÃO!");
@@ -134,6 +177,9 @@ public class Player {
         return pull;
 	}
 
+	/*
+	 * Puxa quantidade n de cartas do baralho.
+	 */
     public void pullCardsBatch(Stack<Card> deck, int n) {
         try {
             for (int i = 0; i < n; i++) {
@@ -144,10 +190,16 @@ public class Player {
         }
     }
 
+    /*
+     * Descarta uma carta em mão.
+     */
 	public Card dropCard(int cardPos) {
 		return this.hand.remove(cardPos);
 	}
 
+	/*
+	 * Descarta n cartas da mão do jogador pela sua;s posições.
+	 */
     public void dropCardsBatch(String cardsPos) {
         Integer[] positions;
 
@@ -165,6 +217,9 @@ public class Player {
         }
     }
 
+    /*
+     * Troca as cartas que serão substituídas.
+     */
     public void switchCards(String cardsPos, Stack<Card> deck) {
         dropCardsBatch(cardsPos);
         pullCardsBatch(deck, cardsPos.split(" ").length);

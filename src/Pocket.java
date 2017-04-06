@@ -53,7 +53,8 @@ public class Pocket {
     	this.ncredits += this.creditsWagered * arrangement;
     }
 
-    public void loseCredits(int credits) {
-    	this.ncredits -= credits;
+    public void loseCredits() {
+    	this.ncredits -= this.creditsWagered;
+    	this.creditsWagered = 0;
     }
 }
